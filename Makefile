@@ -7,13 +7,13 @@
 
 MAKEFLAGS += -j
 
-NAME := a.out
+NAME := my_hunter
 
 LIB_NAME := libmy.a
 
 SRC := $(wildcard src/*.c)
-SRC += $(wildcard src/flags/*.c)
-SRC += $(wildcard src/utils/*.c)
+SRC += $(wildcard src/window/*.c)
+SRC += $(wildcard src/renderer/*.c)
 
 LIB_SRC := $(wildcard lib/my/*.c)
 LIB_SRC += $(wildcard lib/my/printf/*.c)
@@ -35,7 +35,7 @@ CFLAGS += -iquote ./include
 CFLAGS += -Wno-unused-parameter
 
 LDFLAGS += -L .
-LDLIBS := -lmy
+LDLIBS := -lmy -lcsfml-graphics -lcsfml-window -lcsfml-system -lcsfml-audio -lm
 
 oui: $(NAME)
 
