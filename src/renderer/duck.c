@@ -18,6 +18,8 @@ int draw_duck(hunterinfo_t *hf)
     sfSprite_setTexture(hf->duck.sprite,
         hf->duck.texture, sfTrue);
     sfSprite_setTextureRect(hf->duck.sprite, (sfIntRect){ 0, 0, 110, 110 });
+    hf->duck.size = sfTexture_getSize(hf->duck.texture);
+    hf->duck.size.x /= 3;
     return EXIT_SUCCESS;
 }
 
