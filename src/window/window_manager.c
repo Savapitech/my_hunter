@@ -5,8 +5,8 @@
 ** _
 */
 
+#include "lib.h"
 #include <SFML/Graphics.h>
-#include <stdio.h>
 #include "hunter.h"
 
 int create_window(size_t x, size_t y, hunterinfo_t *hunterinfo)
@@ -25,13 +25,18 @@ void shoot(hunterinfo_t *hf)
 {
     sfVector2i pos = sfMouse_getPositionRenderWindow(hf->window);
 
-    printf("SHOOT %d, %d\n", pos.x, pos.y);
-    if (pos.x < hf->duck.pos.x || pos.x >
-        (hf->duck.pos.x + hf->duck.size.x) || pos.y <
-        hf->duck.pos.y || pos.y >
-        (hf->duck.pos.y + hf->duck.size.y))
-        return;
-    printf("SHOOTED\n");
+    my_printf("SHOOT %d, %d\n", pos.x, pos.y);
+    hf->shoot++;
+    for (int i = 0; i < DUCK_NBR; i++) {
+        if (pos.x < hf->ducks[i].pos.x || pos.x >
+            (hf->ducks[i].pos.x + hf->ducks[i].size.x) || pos.y <
+            hf->ducks[i].pos.y || pos.y >
+            (hf->ducks[i].pos.y + hf->ducks[i].size.y))
+            continue;
+        hf->ducks[i].sprite = NULL;
+        hf->score++;
+        my_printf("SHOOTED SCORE: %d\n", hf->score);
+    }
 }
 
 void event_manager(hunterinfo_t *hf)
