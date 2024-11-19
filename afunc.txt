@@ -1,6 +1,0 @@
-va_start
-va_end
-va_arg
-malloc
-free
-write
