@@ -31,10 +31,12 @@ void shoot(hunterinfo_t *hf)
         if (pos.x < hf->ducks[i].pos.x || pos.x >
             (hf->ducks[i].pos.x + hf->ducks[i].size.x) || pos.y <
             hf->ducks[i].pos.y || pos.y >
-            (hf->ducks[i].pos.y + hf->ducks[i].size.y))
+            (hf->ducks[i].pos.y + hf->ducks[i].size.y) ||
+            hf->ducks[i].sprite == NULL)
             continue;
         hf->ducks[i].sprite = NULL;
         hf->score++;
+        inc_score(hf);
         my_printf("SHOOTED SCORE: %d\n", hf->score);
     }
 }

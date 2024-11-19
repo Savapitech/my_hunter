@@ -11,7 +11,7 @@
     #define EXIT_FAILURE 84
     #define EXIT_SUCCESS 0
     #define CURSOR_SIZE 128
-    #define DUCK_NBR 4
+    #define DUCK_NBR 16
 
 typedef struct {
     sfTexture *texture;
@@ -30,6 +30,7 @@ typedef struct {
     sfEvent *event;
     int score;
     int shoot;
+    sfText *score_text;
 } hunterinfo_t;
 
 int hunter(void);
@@ -42,4 +43,6 @@ int draw_cursor(hunterinfo_t *);
 int move_cursor(hunterinfo_t *, sfVector2f);
 int fill_ducks(hunterinfo_t *);
 void display_ducks(hunterinfo_t *);
+int draw_score(hunterinfo_t *);
+int inc_score(hunterinfo_t *);
 #endif

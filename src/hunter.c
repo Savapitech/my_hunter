@@ -13,7 +13,6 @@
 static
 void handle_hunter_loop(hunterinfo_t *hf)
 {
-    int version = 0;
     sfTime time;
     float seconds;
 
@@ -23,6 +22,7 @@ void handle_hunter_loop(hunterinfo_t *hf)
     sfRenderWindow_drawSprite(hf->window, hf->background.sprite, NULL);
     display_ducks(hf);
     sfRenderWindow_drawSprite(hf->window, hf->cursor.sprite, NULL);
+    sfRenderWindow_drawText(hf->window, hf->score_text, NULL);
     sfRenderWindow_display(hf->window);
     for (int i = 0; i < DUCK_NBR; i++)
         move_duck(hf, (sfVector2f){ 1, 0 }, i);
@@ -34,17 +34,24 @@ void handle_hunter_loop(hunterinfo_t *hf)
     }
 }
 
+static
+void draw_all(hunterinfo_t *hf)
+{
+    draw_background(hf);
+    fill_ducks(hf);
+    draw_cursor(hf);
+    draw_score(hf);
+    create_clock(hf);
+}
+
 int hunter(void)
 {
     hunterinfo_t hf = { 0 };
 
     create_window(1920, 1080, &hf);
+    draw_all(&hf);
     sfRenderWindow_setMouseCursorVisible(hf.window, false);
-    draw_background(&hf);
-    fill_ducks(&hf);
-    draw_cursor(&hf);
-    create_clock(&hf);
-    sfRenderWindow_setFramerateLimit(hf.window, 300);
+    sfRenderWindow_setFramerateLimit(hf.window, 144);
     while (sfRenderWindow_isOpen(hf.window)) {
         handle_hunter_loop(&hf);
         if (hf.score == DUCK_NBR && hf.shoot) {
