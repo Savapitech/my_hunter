@@ -20,3 +20,15 @@ int draw_background(hunterinfo_t *hf)
         hf->background.texture, sfTrue);
     return EXIT_SUCCESS;
 }
+
+int draw_tree(hunterinfo_t *hf)
+{
+    hf->tree.texture = sfTexture_createFromFile("assets/tree.png",
+        NULL);
+    if (!hf->tree.texture)
+        return EXIT_FAILURE;
+    hf->tree.sprite = sfSprite_create();
+    sfSprite_setTexture(hf->tree.sprite,
+        hf->tree.texture, sfTrue);
+    return EXIT_SUCCESS;
+}

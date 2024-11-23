@@ -10,8 +10,11 @@
 
 int create_clock(hunterinfo_t *hf)
 {
-    hf->clock = sfClock_create();
-    if (hf->clock == NULL)
+    hf->clock.clock = sfClock_create();
+    if (hf->clock.clock == NULL)
+        return EXIT_FAILURE;
+    hf->clock2.clock = sfClock_create();
+    if (hf->clock2.clock == NULL)
         return EXIT_FAILURE;
     return EXIT_SUCCESS;
 }

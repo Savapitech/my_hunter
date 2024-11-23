@@ -10,8 +10,10 @@
     #include <SFML/Graphics.h>
     #define EXIT_FAILURE 84
     #define EXIT_SUCCESS 0
-    #define CURSOR_SIZE 128
+    #define CURSOR_SIZE 32
     #define DUCK_NBR 16
+    #define FRAMERATE 144
+    #define MICRO_TO_SEC(time) time.microseconds / 1000000.0
 
 typedef struct {
     sfTexture *texture;
@@ -22,9 +24,16 @@ typedef struct {
 } sprite_t;
 
 typedef struct {
-    sfRenderWindow *window;
     sfClock *clock;
+    sfTime time;
+} h_clock_t;
+
+typedef struct {
+    sfRenderWindow *window;
+    h_clock_t clock;
+    h_clock_t clock2;
     sprite_t background;
+    sprite_t tree;
     sprite_t cursor;
     sprite_t ducks[DUCK_NBR];
     sfEvent *event;
@@ -36,6 +45,7 @@ typedef struct {
 int hunter(void);
 int create_window(size_t x, size_t y, hunterinfo_t *);
 int draw_background(hunterinfo_t *);
+int draw_tree(hunterinfo_t *);
 void event_manager(hunterinfo_t *);
 int move_duck(hunterinfo_t *, sfVector2f, int);
 int create_clock(hunterinfo_t *);

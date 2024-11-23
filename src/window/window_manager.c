@@ -5,9 +5,9 @@
 ** _
 */
 
+#include "hunter.h"
 #include "lib.h"
 #include <SFML/Graphics.h>
-#include "hunter.h"
 
 int create_window(size_t x, size_t y, hunterinfo_t *hunterinfo)
 {
