@@ -58,6 +58,8 @@ int move_duck(hunterinfo_t *hf, sfVector2f pos, int i)
         hf->ducks[i].hide = 1;
         return EXIT_SUCCESS;
     }
+    if (hf->ducks[i].pos.x > hf->window_size.x - 30 && !hf->ducks[i].hide)
+        hf->game_over = 1;
     sfSprite_move(hf->ducks[i].sprite, pos);
     hf->ducks[i].pos = sfSprite_getPosition(hf->ducks[i].sprite);
     sfSprite_setTextureRect(hf->ducks[i].sprite, (sfIntRect){ 34 *

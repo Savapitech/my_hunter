@@ -53,7 +53,11 @@ void display_all(hunterinfo_t *hf)
     display_ammos(hf);
     sfRenderWindow_drawSprite(hf->window, hf->cursor.sprite, NULL);
     sfRenderWindow_drawText(hf->window, hf->score_text.text, NULL);
+    if (hf->game_over)
+        display_game_over(hf);
     sfRenderWindow_display(hf->window);
+    if (hf->game_over)
+        hf->paused = 1;
 }
 
 static
@@ -117,7 +121,7 @@ int hunter(void)
 {
     hunterinfo_t hf = { 0, .ammo = AMMO_COUNT, .remaining_ducks = DUCK_NBR,
         .ducks[DUCK_NBR - 1].sprite = NULL, .clock2_time = 0.0005, .round = 1,
-        .duck_space = 50, .last_reload_time.microseconds = 0 };
+        .duck_space = 50 };
 
     create_window(1920, 1080, &hf);
     draw_all(&hf);
@@ -126,7 +130,7 @@ int hunter(void)
     get_score(&hf);
     while (sfRenderWindow_isOpen(hf.window)) {
         hf.window_size = sfRenderWindow_getSize(hf.window);
-        while (hf.paused)
+        while (hf.paused && sfRenderWindow_isOpen(hf.window))
             event_manager(&hf);
         handle_hunter_loop(&hf);
         if (!hf.remaining_ducks)

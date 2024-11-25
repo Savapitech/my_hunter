@@ -64,6 +64,7 @@ typedef struct {
     int high_score;
     int duck_space;
     sfTime last_reload_time;
+    int game_over;
 } hunterinfo_t;
 
 int hunter(void);
@@ -85,4 +86,5 @@ int fill_ammos(hunterinfo_t *);
 int change_ammo_version(hunterinfo_t *, int);
 int get_score(hunterinfo_t *);
 int post_score(hunterinfo_t *);
+int display_game_over(hunterinfo_t *);
 #endif
