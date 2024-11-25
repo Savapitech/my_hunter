@@ -23,7 +23,7 @@ int draw_background(hunterinfo_t *hf)
 
 int draw_tree(hunterinfo_t *hf)
 {
-    hf->tree.texture = sfTexture_createFromFile("assets/tree.png",
+    hf->tree.texture = sfTexture_createFromFile("assets/grass.png",
         NULL);
     if (!hf->tree.texture)
         return EXIT_FAILURE;
