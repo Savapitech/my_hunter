@@ -33,8 +33,12 @@ app.get('/score', function (req, res) {
 })
 
 app.post('/score', function (req, res) {
+    if (req.query.score.length > 10)
+        return res.send("The gived score is to high !")
+    if (req.query.score.length < 3)
+        return res.send("The score is required and need to be higher than 99 !")
     fs.writeFileSync('./score.txt', req.query.score)
-    res.send("OK, Score change to: " + req.query.score);
+    res.send("OK, Score changed to: " + req.query.score);
     log(req, res, "/score")
 })
 
