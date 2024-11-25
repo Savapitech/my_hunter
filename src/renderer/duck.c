@@ -17,9 +17,21 @@ void display_ducks(hunterinfo_t *hf)
             sfRenderWindow_drawSprite(hf->window, hf->ducks[i].sprite, NULL);
 }
 
+static
+void fill_duck2(hunterinfo_t *hf, int i)
+{
+    sfSprite_setPosition(hf->ducks[i].sprite, (sfVector2f){
+        rand() % DUCK_NBR * hf->duck_space - DUCK_NBR * hf->duck_space,
+        rand() % 700});
+    sfSprite_setScale(hf->ducks[i].sprite, (sfVector2f){ 4, 4 });
+    hf->ducks[i].version = rand() % 3;
+}
+
 int fill_ducks(hunterinfo_t *hf)
 {
     for (int i = 0; i < DUCK_NBR; i++) {
+        hf->ducks[i].hide = 0;
+        hf->ducks[i].touched = 0;
         hf->ducks[i].texture =
             sfTexture_createFromFile("assets/duck_states.png", NULL);
         if (!hf->ducks[i].texture)
@@ -33,10 +45,7 @@ int fill_ducks(hunterinfo_t *hf)
         hf->ducks[i].size.x *= 4;
         hf->ducks[i].size.y *= 4;
         hf->ducks[i].size.x /= 5;
-        sfSprite_setPosition(hf->ducks[i].sprite, (sfVector2f){
-            rand() % 600 - 600, rand() % 1000 + 50});
-        sfSprite_setScale(hf->ducks[i].sprite, (sfVector2f){ 4, 4 });
-        hf->ducks[i].version = rand() % 3;
+        fill_duck2(hf, i);
     }
     return EXIT_SUCCESS;
 }

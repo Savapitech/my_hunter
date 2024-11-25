@@ -33,8 +33,16 @@ void pause_game(hunterinfo_t *hf)
 static
 void reload(hunterinfo_t *hf)
 {
+    sfTime actual_time = sfClock_getElapsedTime(hf->clock3.clock);
+
+    if (hf->ammo != 0 || MICRO_TO_SEC(actual_time) -
+        MICRO_TO_SEC(hf->last_reload_time) < ANTI_RELOAD_SPAM_TIME)
+        return;
     hf->ammo = AMMO_COUNT;
+    for (int i = 0; i < AMMO_COUNT; i++)
+        hf->ammos[i].touched = 0;
     fill_ammos(hf);
+    hf->last_reload_time = actual_time;
 }
 
 static
@@ -62,8 +70,10 @@ void shoot(hunterinfo_t *hf)
             (hf->ducks[i].pos.x + hf->ducks[i].size.x) || pos.y <
             hf->ducks[i].pos.y || pos.y >
             (hf->ducks[i].pos.y + hf->ducks[i].size.y) ||
-            hf->ducks[i].sprite == NULL || hf->ducks[i].touched)
+            hf->ducks[i].sprite == NULL || hf->ducks[i].touched ||
+            hf->ammos[hf->ammo].touched)
             continue;
+        hf->ammos[hf->ammo].touched = 1;
         kill_duck(hf, i);
     }
 }

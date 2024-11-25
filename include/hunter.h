@@ -11,13 +11,14 @@
     #define EXIT_FAILURE 84
     #define EXIT_SUCCESS 0
     #define CURSOR_SIZE 32
-    #define DUCK_NBR 16
+    #define DUCK_NBR 200
     #define AMMO_COUNT 3
-    #define FRAMERATE 144
+    #define FRAMERATE 300
     #define MICRO_TO_SEC(time) time.microseconds / 1000000.0
     #define API_HOST "http://45.88.180.12"
     #define API_PORT 3000
     #define API_TIMEOUT 2000000
+    #define ANTI_RELOAD_SPAM_TIME 1.4
 
 typedef struct {
     sfTexture *texture;
@@ -44,6 +45,7 @@ typedef struct {
     sfVector2u window_size;
     h_clock_t clock;
     h_clock_t clock2;
+    h_clock_t clock3;
     sprite_t background;
     sprite_t tree;
     sprite_t cursor;
@@ -60,6 +62,8 @@ typedef struct {
     int round;
     double move_count;
     int high_score;
+    int duck_space;
+    sfTime last_reload_time;
 } hunterinfo_t;
 
 int hunter(void);

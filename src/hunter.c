@@ -84,12 +84,17 @@ void handle_hunter_loop(hunterinfo_t *hf)
     hf->clock.time = sfClock_getElapsedTime(hf->clock.clock);
     hf->clock2.time = sfClock_getElapsedTime(hf->clock2.clock);
     display_all(hf);
-    if (MICRO_TO_SEC(hf->clock.time) > 0.5) {
+    if (MICRO_TO_SEC(hf->clock.time) > 0.35) {
         for (int i = 0; i < DUCK_NBR; i++)
             change_duck_version(hf, i);
         sfClock_restart(hf->clock.clock);
     }
     if (MICRO_TO_SEC(hf->clock2.time) > hf->clock2_time) {
+        if (hf->move_count > 3000) {
+            hf->duck_space /= 1.5;
+            fill_ducks(hf);
+            hf->move_count = 0;
+        }
         second_clock(hf);
         hf->move_count++;
         sfClock_restart(hf->clock2.clock);
@@ -111,7 +116,8 @@ void draw_all(hunterinfo_t *hf)
 int hunter(void)
 {
     hunterinfo_t hf = { 0, .ammo = AMMO_COUNT, .remaining_ducks = DUCK_NBR,
-        .ducks[DUCK_NBR - 1].sprite = NULL, .clock2_time = 0.001, .round = 1 };
+        .ducks[DUCK_NBR - 1].sprite = NULL, .clock2_time = 0.0005, .round = 1,
+        .duck_space = 50, .last_reload_time.microseconds = 0 };
 
     create_window(1920, 1080, &hf);
     draw_all(&hf);
@@ -126,8 +132,7 @@ int hunter(void)
         if (!hf.remaining_ducks)
             break;
     }
-    destroy_all(&hf);
     if (hf.score > hf.high_score)
         post_score(&hf);
-    return EXIT_SUCCESS;
+    return (destroy_all(&hf), EXIT_SUCCESS);
 }
