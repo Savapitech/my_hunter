@@ -21,10 +21,43 @@ int create_window(size_t x, size_t y, hunterinfo_t *hunterinfo)
 }
 
 static
+void pause_game(hunterinfo_t *hf)
+{
+    if (!hf->paused)
+        hf->paused = (sfRenderWindow_setFramerateLimit(hf->window, 0), 1);
+    else if (hf->paused)
+        hf->paused = (sfRenderWindow_setFramerateLimit(hf->window,
+            FRAMERATE), 0);
+}
+
+static
+void reload(hunterinfo_t *hf)
+{
+    hf->ammo = AMMO_COUNT;
+    fill_ammos(hf);
+    my_printf("RELOADED AMMO COUNT: %d\n", hf->ammo);
+}
+
+static
+void kill_duck(hunterinfo_t *hf, int i)
+{
+    hf->ducks[i].version = 3;
+    hf->ducks[i].touched = (move_duck(hf, (sfVector2f){ 0, 0 }, i), 1);
+    hf->score += 100;
+    hf->ammo--;
+    hf->ammos[hf->ammo].sprite = NULL;
+    hf->remaining_ducks--;
+    inc_score(hf);
+    my_printf("DUCK KILLED: %d\n", hf->score);
+}
+
+static
 void shoot(hunterinfo_t *hf)
 {
     sfVector2i pos = sfMouse_getPositionRenderWindow(hf->window);
 
+    if (hf->ammo <= 0)
+        return;
     my_printf("SHOOT %d, %d\n", pos.x, pos.y);
     hf->shoot++;
     for (int i = 0; i < DUCK_NBR; i++) {
@@ -32,12 +65,9 @@ void shoot(hunterinfo_t *hf)
             (hf->ducks[i].pos.x + hf->ducks[i].size.x) || pos.y <
             hf->ducks[i].pos.y || pos.y >
             (hf->ducks[i].pos.y + hf->ducks[i].size.y) ||
-            hf->ducks[i].sprite == NULL)
+            hf->ducks[i].sprite == NULL || hf->ducks[i].touched)
             continue;
-        hf->ducks[i].sprite = NULL;
-        hf->score++;
-        inc_score(hf);
-        my_printf("SHOOTED SCORE: %d\n", hf->score);
+        kill_duck(hf, i);
     }
 }
 
@@ -48,13 +78,18 @@ void event_manager(hunterinfo_t *hf)
     if (!hf->event)
         hf->event = &event;
     while (sfRenderWindow_pollEvent(hf->window, hf->event)) {
-        if (event.type == sfEvtMouseButtonPressed)
+        if (event.type == sfEvtKeyPressed && event.key.code == sfKeyR &&
+            !hf->paused)
+            reload(hf);
+        if (event.type == sfEvtKeyPressed && event.key.code == sfKeyEscape)
+            pause_game(hf);
+        if (event.type == sfEvtMouseButtonPressed && !hf->paused)
             shoot(hf);
         if (event.type == sfEvtClosed)
             sfRenderWindow_close(hf->window);
-        if (event.type == sfEvtMouseMoved)
-            move_cursor(hf,
-                (sfVector2f){ event.mouseMove.x - (float)hf->cursor.size.x / 2,
-                event.mouseMove.y - (float)hf->cursor.size.y / 2 });
+        if (event.type == sfEvtMouseMoved && !hf->paused)
+            move_cursor(hf, (sfVector2f){ event.mouseMove.x -
+                (float)hf->cursor.size.x / 2, event.mouseMove.y -
+                (float)hf->cursor.size.y / 2 });
         }
 }

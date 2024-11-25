@@ -12,6 +12,7 @@
     #define EXIT_SUCCESS 0
     #define CURSOR_SIZE 32
     #define DUCK_NBR 16
+    #define AMMO_COUNT 3
     #define FRAMERATE 144
     #define MICRO_TO_SEC(time) time.microseconds / 1000000.0
 
@@ -21,6 +22,7 @@ typedef struct {
     sfVector2f pos;
     sfVector2u size;
     int version;
+    int touched;
 } sprite_t;
 
 typedef struct {
@@ -30,16 +32,25 @@ typedef struct {
 
 typedef struct {
     sfRenderWindow *window;
+    sfVector2u window_size;
     h_clock_t clock;
     h_clock_t clock2;
     sprite_t background;
     sprite_t tree;
     sprite_t cursor;
     sprite_t ducks[DUCK_NBR];
+    sprite_t ammos[AMMO_COUNT];
     sfEvent *event;
     int score;
     int shoot;
+    int ammo;
     sfText *score_text;
+    sfText *pause_text;
+    int paused;
+    int remaining_ducks;
+    float clock2_time;
+    int round;
+    double move_count;
 } hunterinfo_t;
 
 int hunter(void);
@@ -54,5 +65,9 @@ int move_cursor(hunterinfo_t *, sfVector2f);
 int fill_ducks(hunterinfo_t *);
 void display_ducks(hunterinfo_t *);
 int draw_score(hunterinfo_t *);
+int draw_pause(hunterinfo_t *);
 int inc_score(hunterinfo_t *);
+void display_ammos(hunterinfo_t *);
+int fill_ammos(hunterinfo_t *);
+int change_ammo_version(hunterinfo_t *, int);
 #endif
