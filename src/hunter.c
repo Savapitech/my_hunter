@@ -10,6 +10,38 @@
 #include <stdbool.h>
 #include <stdlib.h>
 
+static
+void destroy_all2(hunterinfo_t *hf)
+{
+    for (int i = 0; i < DUCK_NBR; i++)
+        if (hf->ducks[i].sprite != NULL)
+            sfSprite_destroy(hf->ducks[i].sprite);
+    for (int i = 0; i < AMMO_COUNT; i++)
+        if (hf->ammos[i].sprite != NULL)
+            sfSprite_destroy(hf->ammos[i].sprite);
+    for (int i = 0; i < AMMO_COUNT; i++)
+        if (hf->ducks[i].texture != NULL)
+            sfTexture_destroy(hf->ducks[i].texture);
+    for (int i = 0; i < AMMO_COUNT; i++)
+        if (hf->ammos[i].texture != NULL)
+            sfTexture_destroy(hf->ammos[i].texture);
+}
+
+void destroy_all(hunterinfo_t *hf)
+{
+    destroy_all2(hf);
+    sfText_destroy(hf->score_text.text);
+    sfFont_destroy(hf->score_text.font);
+    sfSprite_destroy(hf->background.sprite);
+    sfTexture_destroy(hf->background.texture);
+    sfSprite_destroy(hf->tree.sprite);
+    sfTexture_destroy(hf->tree.texture);
+    sfSprite_destroy(hf->cursor.sprite);
+    sfTexture_destroy(hf->cursor.texture);
+    sfClock_destroy(hf->clock.clock);
+    sfClock_destroy(hf->clock2.clock);
+    sfRenderWindow_destroy(hf->window);
+}
 
 static
 void display_all(hunterinfo_t *hf)
@@ -20,7 +52,7 @@ void display_all(hunterinfo_t *hf)
     sfRenderWindow_drawSprite(hf->window, hf->tree.sprite, NULL);
     display_ammos(hf);
     sfRenderWindow_drawSprite(hf->window, hf->cursor.sprite, NULL);
-    sfRenderWindow_drawText(hf->window, hf->score_text, NULL);
+    sfRenderWindow_drawText(hf->window, hf->score_text.text, NULL);
     sfRenderWindow_display(hf->window);
 }
 
@@ -58,12 +90,6 @@ void handle_hunter_loop(hunterinfo_t *hf)
         sfClock_restart(hf->clock.clock);
     }
     if (MICRO_TO_SEC(hf->clock2.time) > hf->clock2_time) {
-        if (hf->move_count == 1000) {
-            hf->move_count = 0;
-            hf->clock2_time /= 2;
-            fill_ducks(hf);
-            hf->round++;
-        }
         second_clock(hf);
         hf->move_count++;
         sfClock_restart(hf->clock2.clock);
@@ -79,7 +105,6 @@ void draw_all(hunterinfo_t *hf)
     fill_ammos(hf);
     draw_cursor(hf);
     draw_score(hf);
-    draw_pause(hf);
     create_clock(hf);
 }
 
@@ -98,10 +123,8 @@ int hunter(void)
             event_manager(&hf);
         handle_hunter_loop(&hf);
         if (!hf.remaining_ducks)
-            return (my_printf("WIN SCORE: %d, AC: %.2f\n", hf.score, hf.score /
-                hf.shoot), EXIT_SUCCESS);
+            break;
     }
-    if (hf.shoot)
-        my_printf("SHOOT: %d, AC: %.2f\n", hf.shoot, hf.score / hf.shoot);
+    destroy_all(&hf);
     return EXIT_SUCCESS;
 }

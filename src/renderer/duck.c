@@ -13,7 +13,7 @@
 void display_ducks(hunterinfo_t *hf)
 {
     for (int i = 0; i < DUCK_NBR; i++)
-        if (hf->ducks[i].sprite != NULL)
+        if (hf->ducks[i].sprite != NULL && !hf->ducks[i].hide)
             sfRenderWindow_drawSprite(hf->window, hf->ducks[i].sprite, NULL);
 }
 
@@ -46,7 +46,7 @@ int move_duck(hunterinfo_t *hf, sfVector2f pos, int i)
     if (hf->ducks[i].sprite == NULL)
         return EXIT_SUCCESS;
     if (hf->ducks[i].pos.y > 1100) {
-        hf->ducks[i].sprite = NULL;
+        hf->ducks[i].hide = 1;
         return EXIT_SUCCESS;
     }
     sfSprite_move(hf->ducks[i].sprite, pos);

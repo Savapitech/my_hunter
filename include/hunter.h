@@ -23,7 +23,13 @@ typedef struct {
     sfVector2u size;
     int version;
     int touched;
+    int hide;
 } sprite_t;
+
+typedef struct {
+    sfText *text;
+    sfFont *font;
+} text_t;
 
 typedef struct {
     sfClock *clock;
@@ -44,8 +50,8 @@ typedef struct {
     int score;
     int shoot;
     int ammo;
-    sfText *score_text;
-    sfText *pause_text;
+    text_t score_text;
+    text_t pause_text;
     int paused;
     int remaining_ducks;
     float clock2_time;

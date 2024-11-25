@@ -35,7 +35,6 @@ void reload(hunterinfo_t *hf)
 {
     hf->ammo = AMMO_COUNT;
     fill_ammos(hf);
-    my_printf("RELOADED AMMO COUNT: %d\n", hf->ammo);
 }
 
 static
@@ -48,7 +47,6 @@ void kill_duck(hunterinfo_t *hf, int i)
     hf->ammos[hf->ammo].sprite = NULL;
     hf->remaining_ducks--;
     inc_score(hf);
-    my_printf("DUCK KILLED: %d\n", hf->score);
 }
 
 static
@@ -58,7 +56,6 @@ void shoot(hunterinfo_t *hf)
 
     if (hf->ammo <= 0)
         return;
-    my_printf("SHOOT %d, %d\n", pos.x, pos.y);
     hf->shoot++;
     for (int i = 0; i < DUCK_NBR; i++) {
         if (pos.x < hf->ducks[i].pos.x || pos.x >
