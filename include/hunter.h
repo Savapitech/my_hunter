@@ -56,6 +56,7 @@ typedef struct {
     float clock2_time;
     int round;
     double move_count;
+    int high_score;
 } hunterinfo_t;
 
 int hunter(void);
@@ -75,4 +76,6 @@ int inc_score(hunterinfo_t *);
 void display_ammos(hunterinfo_t *);
 int fill_ammos(hunterinfo_t *);
 int change_ammo_version(hunterinfo_t *, int);
+int get_score(hunterinfo_t *);
+int post_score(hunterinfo_t *);
 #endif

@@ -117,6 +117,7 @@ int hunter(void)
     draw_all(&hf);
     sfRenderWindow_setMouseCursorVisible(hf.window, false);
     sfRenderWindow_setFramerateLimit(hf.window, FRAMERATE);
+    get_score(&hf);
     while (sfRenderWindow_isOpen(hf.window)) {
         hf.window_size = sfRenderWindow_getSize(hf.window);
         while (hf.paused)
@@ -126,5 +127,7 @@ int hunter(void)
             break;
     }
     destroy_all(&hf);
+    if (hf.score > hf.high_score)
+        post_score(&hf);
     return EXIT_SUCCESS;
 }

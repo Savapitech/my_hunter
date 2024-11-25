@@ -35,7 +35,8 @@ CFLAGS += -iquote ./include
 CFLAGS += -Wno-unused-parameter
 
 LDFLAGS += -L .
-LDLIBS := -lmy -lcsfml-graphics -lcsfml-window -lcsfml-system -lcsfml-audio -lm
+LDLIBS := -lmy -lcsfml-graphics -lcsfml-window -lcsfml-system -lcsfml-audio
+LDLIBS += -lcsfml-network -lm
 
 oui: $(NAME)
 

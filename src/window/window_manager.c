@@ -43,8 +43,6 @@ void kill_duck(hunterinfo_t *hf, int i)
     hf->ducks[i].version = 3;
     hf->ducks[i].touched = (move_duck(hf, (sfVector2f){ 0, 0 }, i), 1);
     hf->score += 100;
-    hf->ammo--;
-    hf->ammos[hf->ammo].sprite = NULL;
     hf->remaining_ducks--;
     inc_score(hf);
 }
@@ -57,6 +55,8 @@ void shoot(hunterinfo_t *hf)
     if (hf->ammo <= 0)
         return;
     hf->shoot++;
+    hf->ammo--;
+    hf->ammos[hf->ammo].sprite = NULL;
     for (int i = 0; i < DUCK_NBR; i++) {
         if (pos.x < hf->ducks[i].pos.x || pos.x >
             (hf->ducks[i].pos.x + hf->ducks[i].size.x) || pos.y <
