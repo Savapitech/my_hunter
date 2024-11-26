@@ -15,7 +15,7 @@
     #define AMMO_COUNT 3
     #define FRAMERATE 300
     #define MICRO_TO_SEC(time) time.microseconds / 1000000.0
-    #define API_HOST "http://45.88.180.12"
+    #define API_HOST "http://hunter-api.savalet.dev"
     #define API_PORT 3000
     #define API_TIMEOUT 2000000
     #define ANTI_RELOAD_SPAM_TIME 1.4
