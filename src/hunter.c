@@ -40,6 +40,7 @@ void destroy_all(hunterinfo_t *hf)
     sfTexture_destroy(hf->cursor.texture);
     sfClock_destroy(hf->clock.clock);
     sfClock_destroy(hf->clock2.clock);
+    sfClock_destroy(hf->clock3.clock);
     sfRenderWindow_destroy(hf->window);
 }
 
