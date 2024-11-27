@@ -62,6 +62,8 @@ void shoot(hunterinfo_t *hf)
 
     if (hf->ammo <= 0)
         return;
+    if (hf->event->mouseButton.button != sfMouseLeft)
+        return;
     hf->shoot++;
     hf->ammo--;
     hf->ammos[hf->ammo].sprite = NULL;
