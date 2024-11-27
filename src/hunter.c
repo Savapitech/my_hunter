@@ -32,6 +32,8 @@ void destroy_all(hunterinfo_t *hf)
     destroy_all2(hf);
     sfText_destroy(hf->score_text.text);
     sfFont_destroy(hf->score_text.font);
+    sfText_destroy(hf->game_over_text.text);
+    sfFont_destroy(hf->game_over_text.font);
     sfSprite_destroy(hf->background.sprite);
     sfTexture_destroy(hf->background.texture);
     sfSprite_destroy(hf->tree.sprite);

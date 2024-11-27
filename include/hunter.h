@@ -56,6 +56,7 @@ typedef struct {
     int shoot;
     int ammo;
     text_t score_text;
+    text_t game_over_text;
     int paused;
     int remaining_ducks;
     float clock2_time;

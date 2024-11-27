@@ -25,6 +25,8 @@ int get_score(hunterinfo_t *hf)
     hf->high_score = my_getnbr(body);
     my_printf("Get score from %s:%d\nAPI response: %d\n", API_HOST, API_PORT,
         hf->high_score);
+    sfHttpRequest_destroy(req);
+    sfHttp_destroy(http);
     return EXIT_SUCCESS;
 }
 
@@ -47,5 +49,7 @@ int post_score(hunterinfo_t *hf)
     body = sfHttpResponse_getBody(res);
     my_printf("Post score to %s:%d\nAPI response: %s\n", API_HOST, API_PORT,
         body);
+    sfHttpRequest_destroy(req);
+    sfHttp_destroy(http);
     return EXIT_SUCCESS;
 }

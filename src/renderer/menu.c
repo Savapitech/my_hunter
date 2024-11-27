@@ -8,26 +8,33 @@
 #include "hunter.h"
 #include "lib.h"
 
+static
+void display_game_over2(hunterinfo_t *hf, char *str)
+{
+    sfText_setString(hf->game_over_text.text, str);
+    sfText_setColor(hf->game_over_text.text, (sfColor){ 30, 30, 30, 255 });
+    sfText_setFont(hf->game_over_text.text, hf->game_over_text.font);
+    sfText_setCharacterSize(hf->game_over_text.text, 100);
+    sfText_setPosition(hf->game_over_text.text, (sfVector2f){ 740, 300 });
+}
+
 int display_game_over(hunterinfo_t *hf)
 {
-    sfFont *font = sfFont_createFromFile("assets/Jersey25-Regular.ttf");
-    sfText *text;
     char score[10];
     char high_score[10];
     char *str = "GAME OVER\nScore: ";
 
-    if (!font)
+    hf->game_over_text.font =
+        sfFont_createFromFile("assets/Jersey25-Regular.ttf");
+    if (!hf->game_over_text.font)
         return EXIT_FAILURE;
-    text = sfText_create();
+    hf->game_over_text.text = sfText_create();
     my_numstr(score, hf->score);
     str = my_strcat(str, score);
     str = my_strcat(str, "\nHigh: ");
     my_numstr(high_score, hf->high_score);
     str = my_strcat(str, high_score);
-    sfText_setString(text, str);
-    sfText_setColor(text, (sfColor){ 30, 30, 30, 255 });
-    sfText_setFont(text, font);
-    sfText_setCharacterSize(text, 100);
-    sfText_setPosition(text, (sfVector2f){ 740, 300 });
-    return (sfRenderWindow_drawText(hf->window, text, NULL), EXIT_SUCCESS);
+    display_game_over2(hf, str);
+    return (sfRenderWindow_drawText(hf->window, hf->game_over_text.text, NULL),
+        EXIT_SUCCESS);
 }
