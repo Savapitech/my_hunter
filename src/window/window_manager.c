@@ -48,6 +48,7 @@ void reload(hunterinfo_t *hf)
 static
 void kill_duck(hunterinfo_t *hf, int i)
 {
+    hf->ammos[hf->ammo].touched = 1;
     hf->ducks[i].version = 3;
     hf->ducks[i].touched = (move_duck(hf, (sfVector2f){ 0, 0 }, i), 1);
     hf->score += 100;
@@ -67,6 +68,7 @@ void shoot(hunterinfo_t *hf)
     hf->shoot++;
     hf->ammo--;
     hf->ammos[hf->ammo].sprite = NULL;
+    sfMusic_play(hf->shoot_sound);
     for (int i = 0; i < DUCK_NBR; i++) {
         if (pos.x < hf->ducks[i].pos.x || pos.x >
             (hf->ducks[i].pos.x + hf->ducks[i].size.x) || pos.y <
@@ -75,7 +77,6 @@ void shoot(hunterinfo_t *hf)
             hf->ducks[i].sprite == NULL || hf->ducks[i].touched ||
             hf->ammos[hf->ammo].touched)
             continue;
-        hf->ammos[hf->ammo].touched = 1;
         kill_duck(hf, i);
     }
 }

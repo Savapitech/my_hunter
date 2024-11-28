@@ -34,6 +34,7 @@ void destroy_all(hunterinfo_t *hf)
     sfFont_destroy(hf->score_text.font);
     sfText_destroy(hf->game_over_text.text);
     sfFont_destroy(hf->game_over_text.font);
+    sfMusic_destroy(hf->shoot_sound);
     sfSprite_destroy(hf->background.sprite);
     sfTexture_destroy(hf->background.texture);
     sfSprite_destroy(hf->tree.sprite);
@@ -115,6 +116,7 @@ void draw_all(hunterinfo_t *hf)
     draw_tree(hf);
     fill_ducks(hf);
     fill_ammos(hf);
+    create_sounds(hf);
     draw_cursor(hf);
     draw_score(hf);
     create_clock(hf);

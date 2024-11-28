@@ -7,6 +7,7 @@
 
 #ifndef HUNTER_H_
     #define HUNTER_H_
+    #include <SFML/Audio.h>
     #include <SFML/Graphics.h>
     #define EXIT_FAILURE 84
     #define EXIT_SUCCESS 0
@@ -51,6 +52,7 @@ typedef struct {
     sprite_t cursor;
     sprite_t ducks[DUCK_NBR];
     sprite_t ammos[AMMO_COUNT];
+    sfMusic *shoot_sound;
     sfEvent *event;
     int score;
     int shoot;
@@ -88,4 +90,5 @@ int change_ammo_version(hunterinfo_t *, int);
 int get_score(hunterinfo_t *);
 int post_score(hunterinfo_t *);
 int display_game_over(hunterinfo_t *);
+int create_sounds(hunterinfo_t *);
 #endif
