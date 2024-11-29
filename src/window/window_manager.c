@@ -83,10 +83,9 @@ void shoot(hunterinfo_t *hf)
 
 void event_manager(hunterinfo_t *hf)
 {
-    sfEvent event;
+    sfEvent event = { 0 };
 
-    if (!hf->event)
-        hf->event = &event;
+    hf->event = &event;
     while (sfRenderWindow_pollEvent(hf->window, hf->event)) {
         if (event.type == sfEvtKeyPressed && event.key.code == sfKeyR &&
             !hf->paused)
